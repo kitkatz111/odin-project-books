@@ -3,9 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Book Repository</title>
+    <link rel="stylesheet" href="books.css"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     
+    <div class="header">
+    <h1 class="title">Library</h1>
+    </div>
+
+    <div id="libraryDisplay"></div>
+    
+    <dialog id="dialog">
+        <form id="newBook">
+            <h2 for="bName">Book Name:</h2>
+            <input id="bookInput" type="text" placeholder="Enter Book Name" />
+            <h2 for="author">Author:</h2>
+            <input id="bookAuthor" type="text" placeholder="Enter Author" />
+            <h2 for="pages">Number of Pages:</h2>
+            <input id="bookNumber" type="text" placeholder="Enter Page Number" />
+            <h2 for="read">Read?</h2>
+            <input type="checkbox" id="read" name="read" value="read">
+        </form>
+        <button id="addBook" type="button">Add to Library</button>
+    </dialog>    
+    
+    <button id="seeDialog" type="button">Add book</button>
+    
+  <script src="books.js"></script>
 </body>
 </html>
