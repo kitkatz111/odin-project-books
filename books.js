@@ -46,7 +46,7 @@ addBook.addEventListener("click", () => {
     let uuid = self.crypto.randomUUID(); // assigns random uuid
     
     myLibrary.push({ name: `${title}`, author: `${author}`, pages: `${page}`, read: `${read}`, uuid: `${uuid}`});
-    // pushes uuid and bookvalue name to array
+    // pushes uuid and bookvalue name to array,, note read as checkbox will evaluate to T/F
    
 
         for (var bookz of myLibrary){
@@ -64,59 +64,106 @@ addBook.addEventListener("click", () => {
                                     <h2>UUID</h2>
                                     <h3>${bookz.uuid}</h3>
                                     <button id="deleteBook-${bookz.uuid}" class="deleteButton" type="button">Delete Book</button>
-                                    </div>`;
-                       
-        }
-
-       
-
-
-
-        let buttons = document.getElementsByClassName("readButton"); // returns html collection
-       // containing (all elements with class readButton)
-        
-       for (let btn of buttons){ // for every btn in the HTML collection, which is only one
-            btn.addEventListener('click',flip);
-       }
-
-       function flip(event) { // event passes the click event  
-
-            const btn = event.target;
-            
-            if (btn.innerHTML === 'read') {
-                btn.innerHTML = 'unread';
-                
-                let mapped = myLibrary.map(item => {
-                    if (item.read === "read"){
-                        item.read = "unread";
-                    }
-                })
-
-                console.log(myLibrary.filter(book => book.read))
-            } 
-            
-            else {
-                btn.innerHTML = 'read';
-                myLibrary.push({read: "read"})
-                
-                let mapped = myLibrary.map(item => {
-                    if (item.read === "unread"){
-                        item.read = "read";
-                    }});
-                console.log(myLibrary.filter(book => book.read))
-                // smart way to reduce lots of if statements, if button
-                // is anything else WHEN CLICKED it returns read.
-            }
-            }
-       
-
-
-
-
+                                    </div>`}});
 
         display.addEventListener('click', (event) => {
 
-            if (event.target.tagName === 'BUTTON' && event.target.id.startsWith('deleteBook-')) {
+            if (event.target.tagName === 'BUTTON' && event.target.id.startsWith('readBook-')) {
+
+                const readStatus = event.target;
+
+                flip()
+
+              
+
+                function flip() { // event passes the click event  
+
+                    const btn = readStatus;
+                    
+                    if (btn.innerHTML === 'read') {
+                        btn.innerHTML = 'unread';
+                        
+                        let mapped = myLibrary.map(item => {
+                            
+                                item.read = "unread";
+                            
+                        })
+
+                        // cant understand why it loops through each item, and why delete does not.
+                    } 
+                    
+                    else {
+                        if (btn.innerHTML === 'unread') {
+                        btn.innerHTML = 'read';
+
+                        let mapped = myLibrary.map(item => {
+                            
+                                item.read = "read";
+                            });
+                        };
+
+
+                
+                // smart way to reduce lots of if statements, if button
+                // is anything else WHEN CLICKED it returns read.
+            }
+            console.log(myLibrary.filter(book => book.read))
+            }
+
+            }
+        })
+     // moved read function inside of event handler logic 
+
+                                    
+        //let buttons = document.getElementsByClassName("readButton"); // returns html collection
+       // containing (all elements with class readButton)
+        
+            
+       
+
+
+       //for (let btn of buttons){ // for every btn in the HTML collection
+           // btn.addEventListener('click',flip);
+       //}
+
+       //function flip(event) { // event passes the click event  
+
+            //const btn = event.target;
+            
+           // if (btn.innerHTML === 'read') {
+              //  btn.innerHTML = 'unread';
+                
+               // let mapped = myLibrary.map(item => {
+               //     if (item.read === "read"){
+                //        item.read = "unread";
+                //    }
+                //})
+
+               // console.log(myLibrary.filter(book => book.read))
+          //  } 
+            
+         //   else {
+                
+                
+            //    let mapped = myLibrary.map(item => {
+           //         if (item.read === "unread"){
+            //            item.read = "read";
+             //       }});
+
+
+              //  console.log(myLibrary.filter(book => book.read))
+                // smart way to reduce lots of if statements, if button
+                // is anything else WHEN CLICKED it returns read.
+           // }
+           // }
+                       
+       // }
+
+
+            
+        display.addEventListener('click', (event) => {
+
+            if (event.target.tagName === 'BUTTON' && event.target.id.startsWith('deleteBook-' + `${myLibrary.uuid}`)) {
                 
                 const bookDiv = event.target.closest('.book'); // closest method traverses element & parents
                 
@@ -148,7 +195,7 @@ addBook.addEventListener("click", () => {
 
         
 
-    });
+   
 
     
 
