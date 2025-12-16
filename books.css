@@ -83,3 +83,14 @@ input[type="checkbox"] {
 
 
 }
+
+.read, .unread, .remove {
+  color: #000000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-family: "Raleway";
+  font-size: 1.15rem;
+  font-weight: bolder;
+  cursor: pointer;
+}

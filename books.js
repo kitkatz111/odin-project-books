@@ -30,6 +30,7 @@ addBook.addEventListener("click", () => {
     
     display.innerHTML = "";
     // this doesnt display current contents of the input box
+    
     let title = bookName.value; // checks array of books, creates input 
     let author = bookAuthor.value;
     let page = bookPages.value;
@@ -40,7 +41,7 @@ addBook.addEventListener("click", () => {
             read = "read";}
 
         else { 
-            read = "unread"}; // read or unread function dependant on checkbox 
+            read = "unread"} // read or unread function dependant on checkbox
     
 
     let uuid = self.crypto.randomUUID(); // assigns random uuid
@@ -52,7 +53,7 @@ addBook.addEventListener("click", () => {
         for (var bookz of myLibrary){
             
            
-            display.innerHTML += `<div class='book' id='${bookz.uuid}'>
+            display.innerHTML += `<div class='book' id='${bookz.uuid}' data-id="${bookz.uuid}">
                                     <h2>Book Title</h2>
                                     <h3>"${bookz.name}"</h3>
                                     <h2>Author</h2>
@@ -66,52 +67,87 @@ addBook.addEventListener("click", () => {
                                     <button id="deleteBook-${bookz.uuid}" class="deleteButton" type="button">Delete Book</button>
                                     </div>`}});
 
-        display.addEventListener('click', (event) => {
+        
+        
+            display.addEventListener('click', (event) => {
 
-            if (event.target.tagName === 'BUTTON' && event.target.id.startsWith('readBook-')) {
+                const target = event.target;
 
-                const readStatus = event.target;
+                if (event.target.tagName === 'BUTTON' && event.target.id.startsWith('readBook-')) {
+
+                const parent = target.closest('.book');
+                if (!parent) return; // avoids null dataset
+                const parentID = parent.dataset.id;
+
+                const book = myLibrary.find(b => b.uuid === parentID);
+                if (!book) return;
+
+                book.read = (book.read === 'read') ? 'unread' : 'read';
+
+
+                target.textContent = book.read
 
                 flip()
+
 
               
 
                 function flip() { // event passes the click event  
 
-                    const btn = readStatus;
+                    let btn = readStatus
                     
                     if (btn.innerHTML === 'read') {
                         btn.innerHTML = 'unread';
                         
                         let mapped = myLibrary.map(item => {
                             
-                                item.read = "unread";
+                               btn = "unread";
+                            })
                             
-                        })
 
-                        // cant understand why it loops through each item, and why delete does not.
+                    
+
+
                     } 
                     
                     else {
                         if (btn.innerHTML === 'unread') {
-                        btn.innerHTML = 'read';
+                            btn.innerHTML = 'read';
 
                         let mapped = myLibrary.map(item => {
                             
-                                item.read = "read";
-                            });
-                        };
+                                btn = "read";
+                            })
+                            
+                        }
 
-
+ 
                 
-                // smart way to reduce lots of if statements, if button
-                // is anything else WHEN CLICKED it returns read.
+
             }
-            console.log(myLibrary.filter(book => book.read))
+            
             }
 
             }
-        })
+
+                display.addEventListener('click', (event) => {
+
+                    if (event.target.tagName === 'BUTTON' && event.target.id.startsWith('deleteBook-')) {
+
+                        const bookDiv = event.target.closest('.book'); // closest method traverses element & parents
+
+                        if (bookDiv) { // checks if it is not null or undefined
+
+                            const bookId = bookDiv.id; // uuid of the book
+                            // Remove from DOM
+                            bookDiv.remove();
+                            // removing from array too
+                            myLibrary = myLibrary.filter(book => book.uuid !== bookId);
+
+                        }
+                    }
+                })
+            });
      // moved read function inside of event handler logic 
 
                                     
@@ -161,23 +197,7 @@ addBook.addEventListener("click", () => {
 
 
             
-        display.addEventListener('click', (event) => {
 
-            if (event.target.tagName === 'BUTTON' && event.target.id.startsWith('deleteBook-' + `${myLibrary.uuid}`)) {
-                
-                const bookDiv = event.target.closest('.book'); // closest method traverses element & parents
-                
-                    if (bookDiv) { // checks if it is not null or undefined
-
-                        const bookId = bookDiv.id; // uuid of the book
-                        // Remove from DOM
-                        bookDiv.remove();
-                        // removing from array too
-                        myLibrary = myLibrary.filter(book => book.uuid !== bookId);
-
-                    }
-            }
-        });
 
 
        // display.addEventListener("click", (event) => {
